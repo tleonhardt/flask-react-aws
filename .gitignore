@@ -13,3 +13,6 @@ Pipfile.lock
 
 # macOS
 .DS_Store
+
+# Node/npm
+node_modules
