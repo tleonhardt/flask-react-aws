@@ -10,3 +10,6 @@ htmlcov
 # Pipenv
 Pipfile.lock
 .venv
+
+# macOS
+.DS_Store
