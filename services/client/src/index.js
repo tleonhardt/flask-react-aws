@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      users: []
+    };
+  };
+
   // Component Lifecycle Method that runs during the Commit Phase and can work with the DOM, run side effects, etc.
   componentDidMount() {
     this.getUsers();
@@ -11,7 +19,7 @@ class App extends Component {
   // AJAX call to connect the client to the server
   getUsers() {
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
-    .then((res) => { console.log(res.data); })
+    .then((res) => { this.setState({ users: res.data }); })
     .catch((err) => { console.log(err); });
   }
 
@@ -24,6 +32,17 @@ class App extends Component {
               <br/>
               <h1 className="title is-1">Users</h1>
               <hr/><br/>
+              {
+                this.state.users.map((user) => {
+                  return (
+                    <p
+                      key={user.id}
+                      className="box title is-4 username"
+                    >{ user.username }
+                    </p>
+                  )
+                })
+              }
             </div>
           </div>
         </div>
