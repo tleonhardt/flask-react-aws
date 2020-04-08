@@ -9,8 +9,13 @@ class App extends Component {
     super();
 
     this.state = {
-      users: []
+      users: [],
+      username: '',
+      email: '',
     };
+
+    this.addUser = this.addUser.bind(this)
+    this.handleChange = this.handleChange.bind(this);
   };
 
   // Component Lifecycle Method that runs during the Commit Phase and can work with the DOM, run side effects, etc.
@@ -21,9 +26,31 @@ class App extends Component {
   // AJAX call to connect the client to the server
   getUsers() {
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
-    .then((res) => { this.setState({ users: res.data }); })
-    .catch((err) => { console.log(err); });
+      .then((res) => { this.setState({ users: res.data }); })
+      .catch((err) => { console.log(err); });
   }
+
+  addUser(event) {
+    event.preventDefault();
+
+    const data = {
+      username: this.state.username,
+      email: this.state.email
+    };
+
+    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
+      .then((res) => {
+        this.getUsers();
+        this.setState({ username: '', email: '' });
+      })
+      .catch((err) => { console.log(err); });
+  };
+
+  handleChange(event) {
+    const obj = {};
+    obj[event.target.name] = event.target.value;
+    this.setState(obj);
+  };
 
   render() {
     return (
@@ -34,7 +61,13 @@ class App extends Component {
               <br/>
               <h1 className="title is-1">Users</h1>
               <hr/><br/>
-              <AddUser/>
+              <AddUser
+                username={this.state.username}
+                email={this.state.email}
+                addUser={this.addUser}
+                // eslint-disable-next-line react/jsx-handler-names
+                handleChange={this.handleChange}
+              />
               <br/><br/>
               <UsersList users={this.state.users}/>
             </div>
