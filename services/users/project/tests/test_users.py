@@ -4,6 +4,7 @@
 import json
 
 import pytest
+
 from project import bcrypt
 from project.api.users.crud import get_user_by_id
 from project.api.users.models import User
@@ -13,7 +14,13 @@ def test_add_user(test_app, test_database):
     client = test_app.test_client()
     resp = client.post(
         "/users",
-        data=json.dumps({"username": "michael", "email": "michael@testdriven.io", "password": "greaterthaneight"}),
+        data=json.dumps(
+            {
+                "username": "michael",
+                "email": "michael@testdriven.io",
+                "password": "greaterthaneight",
+            }
+        ),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -45,12 +52,24 @@ def test_add_user_duplicate_email(test_app, test_database):
     client = test_app.test_client()
     client.post(
         "/users",
-        data=json.dumps({"username": "michael", "email": "michael@testdriven.io", "password": "greaterthaneight"}),
+        data=json.dumps(
+            {
+                "username": "michael",
+                "email": "michael@testdriven.io",
+                "password": "greaterthaneight",
+            }
+        ),
         content_type="application/json",
     )
     resp = client.post(
         "/users",
-        data=json.dumps({"username": "michael", "email": "michael@testdriven.io", "password": "greaterthaneight"}),
+        data=json.dumps(
+            {
+                "username": "michael",
+                "email": "michael@testdriven.io",
+                "password": "greaterthaneight",
+            }
+        ),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -125,7 +144,13 @@ def test_update_user(test_app, test_database, add_user):
     client = test_app.test_client()
     resp_one = client.put(
         f"/users/{user.id}",
-        data=json.dumps({"username": "me", "email": "me@testdriven.io", "password": "greaterthaneight"}),
+        data=json.dumps(
+            {
+                "username": "me",
+                "email": "me@testdriven.io",
+                "password": "greaterthaneight",
+            }
+        ),
         content_type="application/json",
     )
     data = json.loads(resp_one.data.decode())
@@ -173,11 +198,9 @@ def test_update_user_with_passord(test_app, test_database, add_user):
     client = test_app.test_client()
     resp = client.put(
         f"/users/{user.id}",
-        data=json.dumps({
-            "username": "me",
-            "email": "me@testdriven.io",
-            "password": password_two
-        }),
+        data=json.dumps(
+            {"username": "me", "email": "me@testdriven.io", "password": password_two}
+        ),
         content_type="application/json",
     )
     assert resp.status_code == 200
