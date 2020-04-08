@@ -1,4 +1,12 @@
+# Python
 __pycache__
 env
 htmlcov
 .coverage
+
+# PyCharm
+.idea
+
+# Pipenv
+Pipfile.lock
+.venv
