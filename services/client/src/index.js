@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
-import UsersList from './components/UsersList';
-import AddUser from './components/AddUser';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import axios from "axios";
+import UsersList from "./components/UsersList";
+import AddUser from "./components/AddUser";
 
 class App extends Component {
   constructor() {
@@ -10,24 +10,29 @@ class App extends Component {
 
     this.state = {
       users: [],
-      username: '',
-      email: '',
+      username: "",
+      email: ""
     };
 
-    this.addUser = this.addUser.bind(this)
+    this.addUser = this.addUser.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  };
+  }
 
   // Component Lifecycle Method that runs during the Commit Phase and can work with the DOM, run side effects, etc.
   componentDidMount() {
     this.getUsers();
-  };
+  }
 
   // AJAX call to connect the client to the server
   getUsers() {
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
-      .then((res) => { this.setState({ users: res.data }); })
-      .catch((err) => { console.log(err); });
+    axios
+      .get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
+      .then(res => {
+        this.setState({ users: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   addUser(event) {
@@ -38,19 +43,22 @@ class App extends Component {
       email: this.state.email
     };
 
-    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
-      .then((res) => {
+    axios
+      .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
+      .then(res => {
         this.getUsers();
-        this.setState({ username: '', email: '' });
+        this.setState({ username: "", email: "" });
       })
-      .catch((err) => { console.log(err); });
-  };
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   handleChange(event) {
     const obj = {};
     obj[event.target.name] = event.target.value;
     this.setState(obj);
-  };
+  }
 
   render() {
     return (
@@ -60,7 +68,8 @@ class App extends Component {
             <div className="column is-one-third">
               <br />
               <h1 className="title is-1">Users</h1>
-              <hr /><br />
+              <hr />
+              <br />
               <AddUser
                 username={this.state.username}
                 email={this.state.email}
@@ -68,17 +77,15 @@ class App extends Component {
                 // eslint-disable-next-line react/jsx-handler-names
                 handleChange={this.handleChange}
               />
-              <br /><br />
+              <br />
+              <br />
               <UsersList users={this.state.users} />
             </div>
           </div>
         </div>
       </section>
-    )
+    );
   }
-};
+}
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById("root"));
