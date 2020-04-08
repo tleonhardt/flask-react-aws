@@ -23,3 +23,8 @@ it('renders a username', () => {
   expect(getByText('michael')).toHaveClass('username');
   expect(getByText('michaelherman')).toHaveClass('username');
 });
+
+it("renders", () => {
+  const { asFragment } = render(<UsersList users={users}/>);
+  expect(asFragment()).toMatchSnapshot();
+});
