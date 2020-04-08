@@ -37,14 +37,12 @@ test:
     DATABASE_TEST_URL: postgres://runner:runner@postgres:5432/users
     FLASK_ENV: development
   script:
-    - python3.8 -m venv env
-    - source env/bin/activate
-    - pip install -r requirements.txt
-    - pip install black flake8 isort pytest
-    - pytest "project/tests" -p no:warnings
-    - flake8 project
-    - black project --check
-    - isort project/**/*.py --check-only
+    - cd /usr/src/app
+    - pip install -r requirements-dev.txt
+    - python -m pytest "project/tests" -p no:warnings
+    - python -m flake8 project
+    - python -m black project --check
+    - python -m isort project/**/*.py --check-only
 
 deploy:
   stage: deploy
