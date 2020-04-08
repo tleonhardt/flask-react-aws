@@ -58,9 +58,9 @@ class App extends Component {
         <div className="container">
           <div className="columns">
             <div className="column is-one-third">
-              <br/>
+              <br />
               <h1 className="title is-1">Users</h1>
-              <hr/><br/>
+              <hr /><br />
               <AddUser
                 username={this.state.username}
                 email={this.state.email}
@@ -68,8 +68,8 @@ class App extends Component {
                 // eslint-disable-next-line react/jsx-handler-names
                 handleChange={this.handleChange}
               />
-              <br/><br/>
-              <UsersList users={this.state.users}/>
+              <br /><br />
+              <UsersList users={this.state.users} />
             </div>
           </div>
         </div>

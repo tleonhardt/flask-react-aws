@@ -10,7 +10,7 @@ const UsersList = (props) => {
             <p
               key={user.id}
               className="box title is-4 username"
-            >{ user.username }
+            >{user.username}
             </p>
           )
         })
