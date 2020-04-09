@@ -60,3 +60,37 @@ def test_user_registration_invalid_json(test_app, test_database, payload):
     assert resp.status_code == 400
     assert resp.content_type == "application/json"
     assert "Input payload validation failed" in data["message"]
+
+
+def test_registered_user_login(test_app, test_database, add_user):
+    add_user("test3", "test3@test.com", "test")
+    client = test_app.test_client()
+    resp = client.post(
+        "/auth/login",
+        data=json.dumps({
+            "email": "test3@test.com",
+            "password": "test"
+        }),
+        content_type="application/json",
+    )
+    data = json.loads(resp.data.decode())
+    assert resp.status_code == 200
+    assert resp.content_type == "application/json"
+    assert data["access_token"]
+    assert data["refresh_token"]
+
+
+def test_not_registered_user_login(test_app, test_database):
+    client = test_app.test_client()
+    resp = client.post(
+        "/auth/login",
+        data=json.dumps({
+            "email": "testnotreal@test.com",
+            "password": "test"
+        }),
+        content_type="application/json",
+    )
+    data = json.loads(resp.data.decode())
+    assert resp.status_code == 404
+    assert resp.content_type == "application/json"
+    assert "User does not exist." in data["message"]
