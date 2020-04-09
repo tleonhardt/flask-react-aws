@@ -31,6 +31,7 @@ user_post = users_namespace.inherit(
 )
 
 
+@users_namespace.route('')
 class UsersList(Resource):
     @users_namespace.marshal_with(user, as_list=True)
     def get(self):
@@ -57,6 +58,7 @@ class UsersList(Resource):
         return response_object, 201
 
 
+@users_namespace.route('/<int:user_id>')
 class Users(Resource):
     @users_namespace.marshal_with(user)
     @users_namespace.response(200, "Success")
@@ -96,7 +98,3 @@ class Users(Resource):
         delete_user(user)
         response_object["message"] = f"{user.email} was removed!"
         return response_object, 200
-
-
-users_namespace.add_resource(UsersList, "")
-users_namespace.add_resource(Users, "/<int:user_id>")
