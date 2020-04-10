@@ -85,6 +85,13 @@ exports[`renders 1`] = `
               </h1>
               <hr />
               <br />
+              <button
+                class="button is-primary"
+              >
+                Add User
+              </button>
+              <br />
+              <br />
               <div>
                 <table
                   class="table is-hoverable is-fullwidth"

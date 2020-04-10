@@ -13,17 +13,17 @@ const UsersList = props => {
           </tr>
         </thead>
         <tbody>
-          {
-            props.users.map((user) => {
-              return (
-                <tr key={user.email}>
-                  <td>{user.email}</td>
-                  <td className="username">{user.username}</td>
-                  <td><button className="button is-danger is-small">Delete</button></td>
-                </tr>
-              )
-            })
-          }
+          {props.users.map(user => {
+            return (
+              <tr key={user.email}>
+                <td>{user.email}</td>
+                <td className="username">{user.username}</td>
+                <td>
+                  <button className="button is-danger is-small">Delete</button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
