@@ -31,7 +31,7 @@ user_post = users_namespace.inherit(
 )
 
 
-@users_namespace.route('')
+@users_namespace.route("")
 class UsersList(Resource):
     @users_namespace.marshal_with(user, as_list=True)
     def get(self):
@@ -58,7 +58,7 @@ class UsersList(Resource):
         return response_object, 201
 
 
-@users_namespace.route('/<int:user_id>')
+@users_namespace.route("/<int:user_id>")
 class Users(Resource):
     @users_namespace.marshal_with(user)
     @users_namespace.response(200, "Success")

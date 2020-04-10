@@ -10,11 +10,9 @@ def test_user_registration(test_app, test_database, add_user):
     client = test_app.test_client()
     resp = client.post(
         "/auth/register",
-        data=json.dumps({
-            "username": "justatest",
-            "email": "test@test.com",
-            "password": "123456",
-        }),
+        data=json.dumps(
+            {"username": "justatest", "email": "test@test.com", "password": "123456"}
+        ),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -30,11 +28,9 @@ def test_user_registration_duplicate_email(test_app, test_database, add_user):
     client = test_app.test_client()
     resp = client.post(
         "/auth/register",
-        data=json.dumps({
-            "username": "michael",
-            "email": "test@test.com",
-            "password": "test"
-        }),
+        data=json.dumps(
+            {"username": "michael", "email": "test@test.com", "password": "test"}
+        ),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -43,12 +39,13 @@ def test_user_registration_duplicate_email(test_app, test_database, add_user):
     assert "Sorry. That email already exists." in data["message"]
 
 
-@pytest.mark.parametrize("payload",
+@pytest.mark.parametrize(
+    "payload",
     [
-        [{}],                                                           # empty payload
+        [{}],  # empty payload
         [{"email": "me@testdriven.io", "password": "greaterthanten"}],  # no username
-        [{"username": "michael", "password": "greaterthanten"}],        # no email
-        [{"email": "me@testdriven.io", "username": "michael"}],         # no password
+        [{"username": "michael", "password": "greaterthanten"}],  # no email
+        [{"email": "me@testdriven.io", "username": "michael"}],  # no password
     ],
 )
 def test_user_registration_invalid_json(test_app, test_database, payload):
@@ -67,10 +64,7 @@ def test_registered_user_login(test_app, test_database, add_user):
     client = test_app.test_client()
     resp = client.post(
         "/auth/login",
-        data=json.dumps({
-            "email": "test3@test.com",
-            "password": "test"
-        }),
+        data=json.dumps({"email": "test3@test.com", "password": "test"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -84,10 +78,7 @@ def test_not_registered_user_login(test_app, test_database):
     client = test_app.test_client()
     resp = client.post(
         "/auth/login",
-        data=json.dumps({
-            "email": "testnotreal@test.com",
-            "password": "test"
-        }),
+        data=json.dumps({"email": "testnotreal@test.com", "password": "test"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -102,10 +93,7 @@ def test_valid_refresh(test_app, test_database, add_user):
     # user login
     resp_login = client.post(
         "/auth/login",
-        data=json.dumps({
-            "email": "test4@test.com",
-            "password": "test"
-        }),
+        data=json.dumps({"email": "test4@test.com", "password": "test"}),
         content_type="application/json",
     )
     # valid refresh
@@ -113,9 +101,7 @@ def test_valid_refresh(test_app, test_database, add_user):
     refresh_token = json.loads(resp_login.data.decode())["refresh_token"]
     resp = client.post(
         "/auth/refresh",
-        data=json.dumps({
-            "refresh_token": refresh_token
-        }),
+        data=json.dumps({"refresh_token": refresh_token}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -133,19 +119,14 @@ def test_invalid_refresh_expired_token(test_app, test_database, add_user):
     # user login
     resp_login = client.post(
         "/auth/login",
-        data=json.dumps({
-            "email": "test5@test.com",
-            "password": "test"
-        }),
+        data=json.dumps({"email": "test5@test.com", "password": "test"}),
         content_type="application/json",
     )
     # invalid token refresh
     refresh_token = json.loads(resp_login.data.decode())["refresh_token"]
     resp = client.post(
         "/auth/refresh",
-        data=json.dumps({
-            "refresh_token": refresh_token
-        }),
+        data=json.dumps({"refresh_token": refresh_token}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -158,9 +139,7 @@ def test_invalid_refresh(test_app, test_database):
     client = test_app.test_client()
     resp = client.post(
         "/auth/refresh",
-        data=json.dumps({
-            "refresh_token": "Invalid"
-        }),
+        data=json.dumps({"refresh_token": "Invalid"}),
         content_type="application/json",
     )
     data = json.loads(resp.data.decode())
@@ -174,10 +153,7 @@ def test_user_status(test_app, test_database, add_user):
     client = test_app.test_client()
     resp_login = client.post(
         "/auth/login",
-        data=json.dumps({
-            "email": "test6@test.com",
-            "password": "test"
-        }),
+        data=json.dumps({"email": "test6@test.com", "password": "test"}),
         content_type="application/json",
     )
     token = json.loads(resp_login.data.decode())["access_token"]
