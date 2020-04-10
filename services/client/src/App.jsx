@@ -15,11 +15,14 @@ class App extends Component {
 
     this.state = {
       users: [],
-      title: "TestDriven.io"
+      title: "TestDriven.io",
+      accessToken: null
     };
 
     this.addUser = this.addUser.bind(this);
     this.handleRegisterFormSubmit = this.handleRegisterFormSubmit.bind(this);
+    this.handleLoginFormSubmit = this.handleLoginFormSubmit.bind(this);
+    this.isAuthenticated = this.isAuthenticated.bind(this);
   }
 
   // Component Lifecycle Method that runs during the Commit Phase and can work with the DOM, run side effects, etc.
@@ -58,7 +61,45 @@ class App extends Component {
       console.log(res.data);
     })
     .catch((err) => { console.log(err); });
-};
+  };
+
+  handleLoginFormSubmit(data) {
+    const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/login`
+    axios.post(url, data)
+    .then((res) => {
+      this.setState({ accessToken: res.data.access_token });
+      this.getUsers();
+      window.localStorage.setItem('refreshToken', res.data.refresh_token);
+    })
+    .catch((err) => { console.log(err); });
+  };
+
+  isAuthenticated() {
+    if (this.state.accessToken || this.validRefresh()) {
+      return true;
+    }
+    return false;
+  };
+
+  validRefresh() {
+    const token = window.localStorage.getItem('refreshToken');
+    if (token) {
+      axios
+      .post(`${process.env.REACT_APP_USERS_SERVICE_URL}/auth/refresh`, {
+        refresh_token: token
+      })
+      .then(res => {
+        this.setState({ accessToken: res.data.access_token });
+        this.getUsers();
+        window.localStorage.setItem('refreshToken', res.data.refresh_token);
+        return true;
+      })
+      .catch(err => {
+        return false;
+      });
+    }
+    return false;
+  };
 
   render() {
     return (
@@ -90,10 +131,18 @@ class App extends Component {
                     exact path='/register' render={() => (
                       <RegisterForm
                         handleRegisterFormSubmit={this.handleRegisterFormSubmit}
+                        isAuthenticated={this.isAuthenticated}
                       />
                     )}
                   />
-                  <Route exact path="/login" component={LoginForm} />
+                  <Route
+                    exact path='/login' render={() => (
+                      <LoginForm
+                        handleLoginFormSubmit={this.handleLoginFormSubmit}
+                        isAuthenticated={this.isAuthenticated}
+                      />
+                    )}
+                  />
                 </Switch>
               </div>
             </div>
