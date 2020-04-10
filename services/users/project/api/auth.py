@@ -119,5 +119,24 @@ class Refresh(Resource):
 
 @auth_namespace.route('/status')
 class Status(Resource):
+    @auth_namespace.marshal_with(user_model)
+    @auth_namespace.response(200, "Success")
+    @auth_namespace.response(401, "Invalid token")
     def get(self):
-        pass
+        """Get details about the currently logged in user."""
+        auth_header = request.headers.get('Authorization')
+        if auth_header:
+            try:
+                access_token = auth_header.split(' ')[1]
+                resp = User.decode_token(access_token)
+                user = get_user_by_id(resp)
+                if not user:
+                    auth_namespace.abort(401, "Invalid token")
+                return user, 200
+            except jwt.ExpiredSignatureError:
+                auth_namespace.abort(401, "Signature expired. Please log in again.")
+                return "Signature expired. Please log in again."
+            except jwt.InvalidTokenError:
+                auth_namespace.abort(401, "Invalid token. Please log in again.")
+        else:
+            auth_namespace.abort(403, 'Token required')
