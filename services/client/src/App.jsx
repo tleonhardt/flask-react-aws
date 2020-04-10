@@ -14,12 +14,12 @@ import UserStatus from "./components/UserStatus";
 
 const modalStyles = {
   content: {
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0',
+    top: "0",
+    left: "0",
+    right: "0",
+    bottom: "0",
     border: 0,
-    background:'transparent'
+    background: "transparent"
   }
 };
 
@@ -160,6 +160,19 @@ class App extends Component {
     this.setState({ showModal: false });
   };
 
+  removeUser = user_id => {
+    axios
+      .delete(`${process.env.REACT_APP_USERS_SERVICE_URL}/users/${user_id}`)
+      .then(res => {
+        this.getUsers();
+        this.createMessage("success", "User removed.");
+      })
+      .catch(err => {
+        console.log(err);
+        this.createMessage("danger", "Something went wrong.");
+      });
+  };
+
   render() {
     return (
       <div>
@@ -218,7 +231,10 @@ class App extends Component {
                             </div>
                           </div>
                         </Modal>
-                        <UsersList users={this.state.users} />
+                        <UsersList
+                          users={this.state.users}
+                          removeUser={this.removeUser}
+                        />
                       </div>
                     )}
                   />

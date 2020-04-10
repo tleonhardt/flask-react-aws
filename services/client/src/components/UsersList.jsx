@@ -7,6 +7,7 @@ const UsersList = props => {
       <table className="table is-hoverable is-fullwidth">
         <thead>
           <tr>
+            <th>ID</th>
             <th>Email</th>
             <th>Username</th>
             <th />
@@ -15,11 +16,17 @@ const UsersList = props => {
         <tbody>
           {props.users.map(user => {
             return (
-              <tr key={user.email}>
+              <tr key={user.id}>
+                <td>{user.id}</td>
                 <td>{user.email}</td>
                 <td className="username">{user.username}</td>
                 <td>
-                  <button className="button is-danger is-small">Delete</button>
+                  <button
+                    className="button is-danger is-small"
+                    onClick={() => props.removeUser(user.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             );
@@ -31,7 +38,8 @@ const UsersList = props => {
 };
 
 UsersList.propTypes = {
-  users: PropTypes.array.isRequired
+  users: PropTypes.array.isRequired,
+  removeUser: PropTypes.func.isRequired
 };
 
 export default UsersList;
