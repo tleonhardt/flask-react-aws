@@ -158,7 +158,7 @@ class App extends Component {
                   />
                   <Route
                     exact
-                    path='/status'
+                    path="/status"
                     render={() => (
                       <UserStatus
                         accessToken={this.state.accessToken}
