@@ -3,7 +3,6 @@ import axios from "axios";
 import { Route, Switch } from "react-router-dom";
 
 import About from "./components/About";
-import AddUser from "./components/AddUser";
 import LoginForm from "./components/LoginForm";
 import Message from "./components/Message";
 import NavBar from "./components/NavBar";
@@ -163,9 +162,6 @@ class App extends Component {
                       <div>
                         <h1 className="title is-1">Users</h1>
                         <hr />
-                        <br />
-                        <AddUser addUser={this.addUser} />
-                        <br />
                         <br />
                         <UsersList users={this.state.users} />
                       </div>
