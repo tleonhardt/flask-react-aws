@@ -85,7 +85,24 @@ exports[`renders 1`] = `
               </h1>
               <hr />
               <br />
-              <div />
+              <div>
+                <table
+                  class="table is-hoverable is-fullwidth"
+                >
+                  <thead>
+                    <tr>
+                      <th>
+                        Email
+                      </th>
+                      <th>
+                        Username
+                      </th>
+                      <th />
+                    </tr>
+                  </thead>
+                  <tbody />
+                </table>
+              </div>
             </div>
           </div>
         </div>
