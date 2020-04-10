@@ -8,6 +8,7 @@ import LoginForm from "./components/LoginForm";
 import NavBar from "./components/NavBar";
 import RegisterForm from "./components/RegisterForm";
 import UsersList from "./components/UsersList";
+import UserStatus from "./components/UserStatus";
 
 class App extends Component {
   constructor() {
@@ -153,6 +154,13 @@ class App extends Component {
                         handleLoginFormSubmit={this.handleLoginFormSubmit}
                         isAuthenticated={this.isAuthenticated}
                       />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path='/status'
+                    render={() => (
+                      <UserStatus accessToken={this.state.accessToken} />
                     )}
                   />
                 </Switch>
