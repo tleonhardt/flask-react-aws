@@ -1,5 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
 import axios from "axios";
+import About from "./components/About";
 import AddUser from "./components/AddUser";
 import UsersList from "./components/UsersList";
 
@@ -64,21 +66,32 @@ class App extends Component {
       <section className="section">
         <div className="container">
           <div className="columns">
-            <div className="column is-one-third">
+            <div className="column is-half">
               <br />
-              <h1 className="title is-1">Users</h1>
-              <hr />
-              <br />
-              <AddUser
-                username={this.state.username}
-                email={this.state.email}
-                addUser={this.addUser}
-                // eslint-disable-next-line react/jsx-handler-names
-                handleChange={this.handleChange}
-              />
-              <br />
-              <br />
-              <UsersList users={this.state.users} />
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={() => (
+                    <div>
+                      <h1 className="title is-1">Users</h1>
+                      <hr />
+                      <br />
+                      <AddUser
+                        username={this.state.username}
+                        email={this.state.email}
+                        addUser={this.addUser}
+                        // eslint-disable-next-line react/jsx-handler-names
+                        handleChange={this.handleChange}
+                      />
+                      <br />
+                      <br />
+                      <UsersList users={this.state.users} />
+                    </div>
+                  )}
+                />
+                <Route exact path="/about" component={About} />
+              </Switch>
             </div>
           </div>
         </div>
