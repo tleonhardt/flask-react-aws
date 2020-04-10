@@ -19,6 +19,7 @@ class App extends Component {
     };
 
     this.addUser = this.addUser.bind(this);
+    this.handleRegisterFormSubmit = this.handleRegisterFormSubmit.bind(this);
   }
 
   // Component Lifecycle Method that runs during the Commit Phase and can work with the DOM, run side effects, etc.
@@ -50,6 +51,15 @@ class App extends Component {
       });
   }
 
+  handleRegisterFormSubmit(data) {
+    const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/register`
+    axios.post(url, data)
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => { console.log(err); });
+};
+
   render() {
     return (
       <div>
@@ -76,7 +86,13 @@ class App extends Component {
                     )}
                   />
                   <Route exact path="/about" component={About} />
-                  <Route exact path="/register" component={RegisterForm} />
+                  <Route
+                    exact path='/register' render={() => (
+                      <RegisterForm
+                        handleRegisterFormSubmit={this.handleRegisterFormSubmit}
+                      />
+                    )}
+                  />
                   <Route exact path="/login" component={LoginForm} />
                 </Switch>
               </div>
