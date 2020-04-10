@@ -160,7 +160,10 @@ class App extends Component {
                     exact
                     path='/status'
                     render={() => (
-                      <UserStatus accessToken={this.state.accessToken} />
+                      <UserStatus
+                        accessToken={this.state.accessToken}
+                        isAuthenticated={this.isAuthenticated}
+                      />
                     )}
                   />
                 </Switch>

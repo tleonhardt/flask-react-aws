@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -35,19 +36,23 @@ class UserStatus extends Component {
   };
 
   render() {
+    if (!this.props.isAuthenticated()) {
+      return <Redirect to='/login' />;
+    }
     return (
       <div>
         <ul>
           <li><strong>Email:</strong>&nbsp;<span data-testid="user-email">{this.state.email}</span></li>
           <li><strong>Username:</strong>&nbsp;<span data-testid="user-username">{this.state.username}</span></li>
-      </ul>
+        </ul>
       </div>
     )
   };
 };
 
 UserStatus.propTypes = {
-  accessToken: PropTypes.string
+  accessToken: PropTypes.string,
+  isAuthenticated: PropTypes.func.isRequired
 };
 
 export default UserStatus;
