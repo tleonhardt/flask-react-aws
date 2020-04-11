@@ -1,6 +1,4 @@
-# Authentication with Flask, React, and Docker
-
-[![pipeline status](https://gitlab.com/tleonhardt/flask-react-auth/badges/master/pipeline.svg)](https://gitlab.com/tleonhardt/flask-react-auth/commits/master)
+# Deploying a Flask and React Microservice to AWS ECS
 
 This is my code from following along with the course 
-[Authentication with Flask, React, and Docker](https://testdriven.io/courses/auth-flask-react).
+[Deploying a Flask and React Microservice to AWS ECS](https://testdriven.io/courses/aws-flask-react).
