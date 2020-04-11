@@ -202,12 +202,14 @@ class App extends Component {
                         <h1 className="title is-1">Users</h1>
                         <hr />
                         <br />
-                        <button
-                          onClick={this.handleOpenModal}
-                          className="button is-primary"
-                        >
-                          Add User
-                        </button>
+                        {this.isAuthenticated() && (
+                          <button
+                            onClick={this.handleOpenModal}
+                            className="button is-primary"
+                          >
+                            Add User
+                          </button>
+                        )}
                         <br />
                         <br />
                         <Modal
@@ -234,6 +236,7 @@ class App extends Component {
                         <UsersList
                           users={this.state.users}
                           removeUser={this.removeUser}
+                          isAuthenticated={this.isAuthenticated}
                         />
                       </div>
                     )}
